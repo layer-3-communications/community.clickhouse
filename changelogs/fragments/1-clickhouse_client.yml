@@ -1,0 +1,2 @@
+minor_changes:
+- clickhouse_client - added the ability to disable flatten nested before running the query
