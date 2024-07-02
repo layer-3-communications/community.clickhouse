@@ -79,7 +79,7 @@
 
 - name: Load Nested Data
   community.clickhouse.clickhouse_client:
-    execute: 'insert into foo.nested FORMAT JSONEachRow {"coordinates": [{"x": 1, "y":1}]};'
+    execute: 'insert into foo.nested (coordinates) VALUES (([(10,20), (11,21)]));'
 
 - name: Read Nested data
   register: nested_result
@@ -89,4 +89,7 @@
 - name: Check Nested Data exists
   ansible.builtin.assert:
     that:
-    - nested_result.result[0][0][0][0] == 1
+    - nested_result.result[0][0][0][0] == 10
+    - nested_result.result[0][0][0][1] == 20
+    - nested_result.result[0][0][1][0] == 11
+    - nested_result.result[0][0][1][1] == 21
